@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/CustomCursor";
 import { siteConfig } from "@/lib/site-config";
 import { dentistSchema } from "@/lib/schema";
 
@@ -56,9 +58,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(dentistSchema()) }}
         />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <CustomCursor />
+        <SmoothScroll>
+          <Header />
+          <main className="pt-16">{children}</main>
+          <Footer />
+        </SmoothScroll>
         <WhatsAppButton />
       </body>
     </html>

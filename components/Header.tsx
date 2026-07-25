@@ -1,18 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Menu, X, MapPin } from "lucide-react";
 import { siteConfig, nav } from "@/lib/site-config";
 import CallButton from "./CallButton";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const transparent = isHome && !scrolled && !open;
+
+  useEffect(() => {
+    if (!isHome) return;
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.75);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/90 backdrop-blur-md">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
+        transparent ? "bg-transparent" : "border-b border-black/5 bg-white/90 backdrop-blur-md"
+      }`}
+    >
       <div className="container-page flex h-16 items-center justify-between">
-        <Link href="/" className="font-display text-xl font-bold tracking-tight text-ink-900">
+        <Link
+          href="/"
+          className={`font-display text-xl font-bold tracking-tight ${transparent ? "text-white" : "text-ink-900"}`}
+        >
           {siteConfig.name}
         </Link>
 
@@ -21,7 +41,9 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-ink-800/80 transition-colors hover:text-brand-600"
+              className={`text-sm font-medium transition-colors hover:text-brand-500 ${
+                transparent ? "text-white/80" : "text-ink-800/80 hover:text-brand-600"
+              }`}
             >
               {item.label}
             </Link>
@@ -33,7 +55,9 @@ export default function Header() {
             href={siteConfig.mapsLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm font-medium text-ink-800/70 hover:text-brand-600"
+            className={`flex items-center gap-1.5 text-sm font-medium hover:text-brand-500 ${
+              transparent ? "text-white/70" : "text-ink-800/70 hover:text-brand-600"
+            }`}
           >
             <MapPin className="h-4 w-4" /> Directions
           </a>
@@ -43,7 +67,7 @@ export default function Header() {
         <button
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
-          className="rounded-md p-2 text-ink-900 lg:hidden"
+          className={`rounded-md p-2 lg:hidden ${transparent ? "text-white" : "text-ink-900"}`}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>

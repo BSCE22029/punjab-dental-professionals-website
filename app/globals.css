@@ -6,12 +6,12 @@
   color-scheme: light;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   @apply bg-white text-ink-900 antialiased;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
 }
 
 .dark body {

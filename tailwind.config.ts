@@ -35,9 +35,23 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-8px)" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        grain: {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "10%": { transform: "translate(-2%, -4%)" },
+          "30%": { transform: "translate(3%, 2%)" },
+          "50%": { transform: "translate(-4%, 3%)" },
+          "70%": { transform: "translate(2%, -3%)" },
+          "90%": { transform: "translate(-3%, 1%)" },
+        },
       },
       animation: {
         float: "float 4s ease-in-out infinite",
+        marquee: "marquee 22s linear infinite",
+        grain: "grain 8s steps(8) infinite",
       },
     },
   },
